@@ -2,28 +2,31 @@ import React from 'react';
 import Cell from './cell';
 import Status from './status';
 import Table from './table';
+import Counter from './counter';
 
- let data=[]
+let data = []
 class Board extends React.Component {
 
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
-        let nextProps=this.props.player1;
-        
+        let nextProps = this.props.player1;
+
 
         this.state = {
-            player:this.props.player1,
-            nextMove: "X",
-            gameStatus : null,
+            player: this.props.player1,
+            nextMove: "",
+            gameStatus: null,
+            Otimer:0,
+            Xtimer:0,
             cells: [null, null, null, null, null, null, null, null, null]
 
 
         }
-       
+
         // console.log(props)
         // this.setState({player: this.props.player1})
-       
+
         this.victoryLines = [
             [[1, 2], [4, 8], [3, 6]],
             [[0, 2], [4, 7]],
@@ -47,15 +50,19 @@ class Board extends React.Component {
     }
 
     turn = {
-        display : "flex",
-        justifyContent : "center",
-        alignContent : "center",
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
         backgroundColor: "black",
         color: "white",
-        padding : "10px",
-        marign : "auto",
-        height : "50px"
+        padding: "10px",
+        marign: "auto",
+        height: "50px"
     }
+     count={
+         visibility:"hidden"
+         
+     }
 
     victoryCheck = (id, move, player) => {
         id = Number(id);
@@ -73,53 +80,65 @@ class Board extends React.Component {
 
     handle = (id) => {
 
-        console.log(this.props.player1,this.props.player2);
-        if (this.state.cells[id] || this.state.gameStatus == "won")
+       
+        if (this.state.cells[id] || this.state.gameStatus === "won")
             return;
         let newCells = [...this.state.cells];
         newCells[id] = this.state.nextMove;
 
         let winner = this.victoryCheck(id, this.state.nextMove, this.state.player);
-        if(winner === this.state.player) {
-            this.setState({gameStatus : "won"});
+        if (winner === this.state.player) {
+            this.setState({ gameStatus: "won" });
         }
         
-        let nextMove = this.state.nextMove === "O" ? "X" : "O";
-        
-        let playerSwitch = this.state.player === this.props.player1 ? this.props.player2 : this.props.player1;
-        this.setState({ cells: newCells, nextMove: nextMove, player: playerSwitch });
-
-        console.log(this.props);
         data.push({
-            srno:this.state.cells.filter(cells => cells != null).length + 1,
-            position:id,
-            move:nextMove,
-            name:this.state.player
+            srno: this.state.cells.filter(cells => cells != null).length + 1,
+            position: id,
+            move: this.state.nextMove,
+            name: this.state.player
 
         })
         
-    
+        let nextMove = this.state.nextMove === "O" ? "X" : "O";
+
+        let playerSwitch = this.state.player === this.props.player1 ? this.props.player2 : this.props.player1;
+        this.setState({ cells: newCells, nextMove: nextMove, player: playerSwitch });
+
+        
+
     }
 
-   componentWillReceiveProps(nextProps){
-      console.log("next:",nextProps)
-       this.setState({player:nextProps.player1})
+    componentWillReceiveProps(nextProps) {
+     
+        this.setState({ player: nextProps.player1, nextMove:"X"})
 
-   }
+    }
+
 
     render() {
+        
         return (
-           
+
             <>
-               
+
                 <div style={this.div} onLoad={this.handle}>
                     {this.state.cells.map((value, index) => (<Cell key={index} cellClick={this.handle} value={value} id={index} />))}
                 </div >
                 <div style={this.turn}>
-                    <Status currentPlayer = {this.state.player} gameStatus = {this.state.gameStatus} />
-                    {console.log(this.state.player)}
+                    <Status currentPlayer={this.state.player} gameStatus={this.state.gameStatus} />
+                    
                 </div>
-                <Table tdata={data}/>
+                <Table tdata={data} />
+                
+
+                {/* {this.state.player!=""?''} */}
+                <div style={{visibility:"hidden"}}>
+                <Counter player={this.state.player}/>
+
+                </div>
+              
+
+                
             </>
         );
 
