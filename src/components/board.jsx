@@ -9,16 +9,21 @@ class Board extends React.Component {
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
+        let nextProps=this.props.player1;
+        
 
         this.state = {
-            player: this.props.player1,
+            player:this.props.player1,
             nextMove: "X",
             gameStatus : null,
             cells: [null, null, null, null, null, null, null, null, null]
 
 
         }
-
+       
+        // console.log(props)
+        // this.setState({player: this.props.player1})
+       
         this.victoryLines = [
             [[1, 2], [4, 8], [3, 6]],
             [[0, 2], [4, 7]],
@@ -67,6 +72,8 @@ class Board extends React.Component {
 
 
     handle = (id) => {
+
+        console.log(this.props.player1,this.props.player2);
         if (this.state.cells[id] || this.state.gameStatus == "won")
             return;
         let newCells = [...this.state.cells];
@@ -82,6 +89,7 @@ class Board extends React.Component {
         let playerSwitch = this.state.player === this.props.player1 ? this.props.player2 : this.props.player1;
         this.setState({ cells: newCells, nextMove: nextMove, player: playerSwitch });
 
+        console.log(this.props);
         data.push({
             srno:this.state.cells.filter(cells => cells != null).length + 1,
             position:id,
@@ -90,21 +98,26 @@ class Board extends React.Component {
 
         })
         
-       
+    
     }
 
+   componentWillReceiveProps(nextProps){
+      console.log("next:",nextProps)
+       this.setState({player:nextProps.player1})
 
+   }
 
     render() {
-
         return (
+           
             <>
                
-                <div style={this.div}>
+                <div style={this.div} onLoad={this.handle}>
                     {this.state.cells.map((value, index) => (<Cell key={index} cellClick={this.handle} value={value} id={index} />))}
                 </div >
                 <div style={this.turn}>
                     <Status currentPlayer = {this.state.player} gameStatus = {this.state.gameStatus} />
+                    {console.log(this.state.player)}
                 </div>
                 <Table tdata={data}/>
             </>

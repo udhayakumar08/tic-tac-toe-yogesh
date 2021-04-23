@@ -10,9 +10,13 @@ class Table extends React.Component {
         // }
     }
 
-    table = {
-        margin : "auto",
-        border : "1px solid black"
+    style = {
+        // margin : "auto",
+        borderCollapse:"collapse",
+        border : "1px solid black",
+        width:"300px",
+       
+        
     }
 
     tableHeader = () => {
@@ -23,19 +27,19 @@ class Table extends React.Component {
         this.tableHeader();
         return(
         <table style={this.style} className="myTable">
-            <th>
-                <td>S No.</td>
-                <td>playerName</td>
-                <td>Position</td>
-                <td>move</td>
-            </th>
+            <tr>
+                <td style={this.style}>S No.</td>
+                <td style={this.style}>playerName</td>
+                <td style={this.style}>Position</td>
+                <td style={this.style}>move</td>
+            </tr>
         {this.props.tdata.map(row=>{
             return (
                 <tr>
-                <td>{row.srno}</td>
-                <td>{row.name}</td>
-                <td>{row.position}</td>
-                <td>{row.move}</td>
+                <td style={this.style}>{row.srno}</td>
+                <td style={this.style}>{row.name}</td>
+                <td style={this.style}>{row.position}</td>
+                <td style={this.style}>{row.move}</td>
                 
             </tr>
             );

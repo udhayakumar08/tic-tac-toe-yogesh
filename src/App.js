@@ -22,11 +22,12 @@ class App extends React.Component {
 
   render() {
 
-    let setNames = (player1, player2) => {
+    let setNames =  (player1, player2) => {
       if (player1 === "" || player2 === "") {
         alert("Player Name Fields Cannot be Empty");
       } else {
-        this.setState({ player1: player1, player2: player2 });
+         this.setState({ player1: player1, player2: player2 });
+        // console.log("players:",this.state.player1,this.state.player2);
       }
     }
 

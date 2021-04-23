@@ -34,6 +34,8 @@ class Players extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.getNames(this.state.player1, this.state.player2);
+        // console.log(this.state.player1);
+        // console.log(this.state.player2);
     }
 
     render() {

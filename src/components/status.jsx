@@ -7,13 +7,18 @@ class Status extends React.Component {
 
         console.log(props);
 
+        this.state={
+            player:this.props
+        }
+
     }
 
     render() {
 
         let {currentPlayer, gameStatus} = this.props;
+        console.log(this.props);
         return (
-            <label>{gameStatus === "won" ? currentPlayer + " Wins" : currentPlayer + "'s Trun"}</label>
+            <label>{gameStatus === "won" ? currentPlayer + " Wins" : currentPlayer + "'s Turn"}</label>
         );
     }
 }
